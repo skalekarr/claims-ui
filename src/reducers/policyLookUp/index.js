@@ -1,6 +1,6 @@
 import * as ACTIONS from '../../actions/constants/policyLookUp';
 
-const initialState = {};
+const initialState = { test: 'This is test' };
 
 export default function reducer(state = initialState, action) {
   const { type, data } = action;

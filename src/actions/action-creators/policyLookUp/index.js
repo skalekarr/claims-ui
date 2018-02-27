@@ -1,10 +1,10 @@
-import * as ACTIONS from '../constants/policyLookUp';
+import { CLEAR_FIELD, REQUEST_POLICY_SEARCH } from '../../constants/policyLookUp';
 
-export const clearField = () => {
-  type: ACTIONS.CLEAR_FIELD
-};
+export const clearField = () => ({
+  type: CLEAR_FIELD
+});
 
-export const requestPolicySearch = (policyNumber) {
-  type: ACTIONS.REQUEST_POLICY_SEARCH,
-  payload: policyNumber
-};
+export const requestPolicySearch = (policyNumber) => ({
+  type: REQUEST_POLICY_SEARCH,
+  payload: policyNumber,
+});

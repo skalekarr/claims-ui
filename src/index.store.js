@@ -5,7 +5,7 @@ import createmiddlewareSaga from 'redux-saga';
 import createHistory from 'history/createBrowserHistory';
 
 import * as reducers from './reducers';
-//import sagas from './app/sagas';
+import sagas from './sagas';
 
 export const history = createHistory();
 const mwSaga = createmiddlewareSaga();
@@ -25,7 +25,7 @@ export default function configureStore(initialState) {
     createStoreWithMiddleware,
   );
 
-  //mwSaga.run(sagas);
+  mwSaga.run(sagas);
 
   return configuredStore;
 }

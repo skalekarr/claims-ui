@@ -3,8 +3,6 @@ import { Route } from 'react-router-dom';
 
 import AppMain from '../AppMain';
 
-const AppRoot = () => (
-    <Route path="/claimsui" component={AppMain} />
+export const AppRoot = () => (
+    <Route path="/" component={AppMain} />
 );
-
-export default AppRoot;
