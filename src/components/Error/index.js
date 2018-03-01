@@ -82,7 +82,7 @@ ErrorModal.defaultProps = {
 };
 
 ErrorModal.propTypes = {
-  errors: PropTypes.array.isRequired,
+  errors: PropTypes.object.isRequired,
   modal: PropTypes.object.isRequired,
   toggleModal: PropTypes.func.isRequired,
   clearErrors: PropTypes.func.isRequired,

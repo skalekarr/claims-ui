@@ -2,10 +2,13 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, PageHeader, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 
 import { requestPolicySearch } from '../../actions/action-creators/policyLookUp';
 import { addErrors, toggleModal } from '../../actions/action-creators/app';
+
+import AppBody from '../../components/AppBody';
+import { NavigationBar } from '../../components/NavigationBar/index';
 
 const mapStateToProps = ({ policyLookUp }) => ({
     policyLookUp
@@ -17,7 +20,7 @@ const mapDispatchToProps = (dispatch) => (
         toggleModal,
         requestPolicySearch
     },
-    dispatch)
+        dispatch)
 );
 
 class PolicyLookUp extends Component {
@@ -26,19 +29,19 @@ class PolicyLookUp extends Component {
 
         addErrors({
             message: message
-          });
-          toggleModal({
+        });
+        toggleModal({
             modal: 'errorModal',
             active: true,
-            properties: {messages: message}
-          });
+            properties: { messages: message }
+        });
     }
 
     handleSearch = () => {
         const { requestPolicySearch } = this.props;
         const policyNumber = this.textInput.value;
 
-        if (policyNumber === null || policyNumber === '') {
+        if (policyNumber === undefined || policyNumber === '') {
             this.showError('Policy Number cannot be Empty. Please Enter a Valid Policy Number')
         } else if (isNaN(policyNumber)) {
             this.showError('Policy Number can be only Numbers. Please Enter a Valid Policy Number')
@@ -55,23 +58,43 @@ class PolicyLookUp extends Component {
 
     render() {
         return (
-            <Row>
-                <Col xs={12} sm={12} md={12}>
-                PolicyNumber
-                <input
-                    ref={(input) => { this.textInput = input; }}
-                    type="text"
-                />
-                <button onClick={this.clearField}> clear</button>
-                <button onClick={this.handleSearch}> Submit </button>
-                </Col>
-            </Row>
+            <AppBody>
+                <PageHeader>
+                    Mutual of Omaha
+                </PageHeader>
+                <NavigationBar />
+                <hr/>
+                <form>
+                    <FormGroup
+                        controlId="policyLookUp"
+                    >
+                        <Row>
+                            <Col md={6} xs={6}>
+                                <ControlLabel>PolicyNumber</ControlLabel>
+                            </Col>
+                            <Col md={6} xs={6}>
+                                <FormControl
+                                    inputRef={input => this.textInput = input}
+                                    type="text"
+                                />
+                            </Col>
+                        </Row>
+                    </FormGroup>
+                </form>
+                <Row>
+                    <Col md={6} xs={6}>
+                        <Button className="btn btn-primary " onClick={this.clearField}>Clear</Button>
+                    </Col>
+                    <Col md={6} xs={6}>
+                        <Button className="btn btn-primary pull-right" onClick={this.handleSearch}>Submit</Button>
+                    </Col>
+                </Row>
+            </AppBody>
         )
     }
 }
 
 PolicyLookUp.propTypes = {
-    clearField: PropTypes.func.isRequired,
     requestPolicySearch: PropTypes.func.isRequired
 };
 
