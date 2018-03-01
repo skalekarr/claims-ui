@@ -1,6 +1,7 @@
 import { takeEvery, put } from 'redux-saga/effects';
 
 import { REQUEST_POLICY_SEARCH, RECEIVE_POLICY_SEARCH } from '../../actions/constants/policyLookUp';
+import { ADD_ERRORS } from '../../actions/constants/app';
 import api from '../api';
 
 /* ////////////////////////////////// */
@@ -14,12 +15,24 @@ export function* requestPolicyLookUp({payload: policyNumber}) {
     const { status, data } = response;
 
     if (status !== 200) {
-      // handle error
-      console.log(status);
+      yield put({
+        type: ADD_ERRORS,
+        error: {
+          error: 'No environment info returned.',
+          message: `The server encountered an error processing the request (environment). Please try again or contact your administrator to review error logs. (HTTP Status: ${status})`,
+        },
+      });
+      throw new Error();
     }
     if (!data.Success) {
-      // handle error
-      console.log(status);
+      yield put({
+        type: ADD_ERRORS,
+        error: {
+          error: 'No environment info returned.',
+          message: `The server encountered an error processing the request (environment). Please try again or contact your administrator to review error logs. (HTTP Status: ${status})`,
+        },
+      });
+      throw new Error();
     }
     yield put({
       type: RECEIVE_POLICY_SEARCH,
@@ -27,12 +40,22 @@ export function* requestPolicyLookUp({payload: policyNumber}) {
     });
   } catch (e) {
     if (e.response) {
-      // handle error
-      console.log(e.response);
+      yield put({
+        type: ADD_ERRORS,
+        error: {
+          error: 'No environment info returned.',
+          message: 'The server encountered an error processing the request (environment). Please try again or contact your administrator to review error logs.',
+          exception: e.response.data.ExceptionMessage || '',
+        },
+      });
     }
     if (!e.response && e.message) {
-      // handle error
-      console.log(e.message);
+      yield put({
+        type: ADD_ERRORS,
+        error: {
+          message: e.message,
+        },
+      });
     }
   }
 }

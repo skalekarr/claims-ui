@@ -21,22 +21,30 @@ const mapDispatchToProps = (dispatch) => (
 );
 
 class PolicyLookUp extends Component {
-    handleSearch = () => {
-        const { addErrors, requestPolicySearch } = this.props;
-        const policyNumber = this.textInput.value;
+    showError = (message) => {
+        const { addErrors, toggleModal } = this.props;
 
-        if (policyNumber === null || policyNumber === '') {
-          addErrors({
-            message: 'Should not be empty'
+        addErrors({
+            message: message
           });
           toggleModal({
             modal: 'errorModal',
             active: true,
-            properties: {messages: 'Should not be empty'}
-          })
-        }
+            properties: {messages: message}
+          });
+    }
 
-        if (policyNumber !== null && policyNumber !== '') {
+    handleSearch = () => {
+        const { requestPolicySearch } = this.props;
+        const policyNumber = this.textInput.value;
+
+        if (policyNumber === null || policyNumber === '') {
+            this.showError('Policy Number cannot be Empty. Please Enter a Valid Policy Number')
+        } else if (isNaN(policyNumber)) {
+            this.showError('Policy Number can be only Numbers. Please Enter a Valid Policy Number')
+        } else if (policyNumber.length !== 8) {
+            this.showError('Policy Number should be of 8 characters. Please Enter a Valid Policy Number')
+        } else {
             requestPolicySearch(policyNumber);
         }
     }
@@ -52,7 +60,7 @@ class PolicyLookUp extends Component {
                 PolicyNumber
                 <input
                     ref={(input) => { this.textInput = input; }}
-                    type="number"
+                    type="text"
                 />
                 <button onClick={this.clearField}> clear</button>
                 <button onClick={this.handleSearch}> Submit </button>
