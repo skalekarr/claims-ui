@@ -2,28 +2,43 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { Row, Col } from 'react-bootstrap';
 
-import { clearField, requestPolicySearch } from '../../actions/action-creators/policyLookUp';
+import { requestPolicySearch } from '../../actions/action-creators/policyLookUp';
+import { addErrors, toggleModal } from '../../actions/action-creators/app';
 
 const mapStateToProps = ({ policyLookUp }) => ({
     policyLookUp
 });
 
 const mapDispatchToProps = (dispatch) => (
-    bindActionCreators({ 
-        clearField, 
-        requestPolicySearch 
-    }, 
+    bindActionCreators({
+        addErrors,
+        toggleModal,
+        requestPolicySearch
+    },
     dispatch)
 );
 
 class PolicyLookUp extends Component {
     handleSearch = () => {
-        const { requestPolicySearch } = this.props;
-        const policyNumber = this.textInput.value
+        const { addError, requestPolicySearch } = this.props;
+        const policyNumber = this.textInput.value;
+
+        if (policyNumber === null && policyNumber === '') {
+          addErrors({
+            message: 'Should not be empty'
+          });
+          toggleModal({
+            modal: 'errorModal',
+            active: true,
+            properties: {messages: 'Should not be empty'}
+          })
+        }
 
         if (policyNumber !== null && policyNumber !== '') {
             requestPolicySearch(policyNumber);
+            requestPolicySerach
         }
     }
 
@@ -33,15 +48,17 @@ class PolicyLookUp extends Component {
 
     render() {
         return (
-            <div>
+            <Row>
+                <Col xs={12} sm={12} md={12}>
                 PolicyNumber
-                <input 
+                <input
                     ref={(input) => { this.textInput = input; }}
                     type="number"
                 />
-                <button onClick={this.clearField}> Clear </button>
+                <button onClick={this.clearField}> clear</button>
                 <button onClick={this.handleSearch}> Submit </button>
-            </div>
+                </Col>
+            </Row>
         )
     }
 }
