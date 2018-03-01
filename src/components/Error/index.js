@@ -30,11 +30,11 @@ export class ErrorModal extends Component {
       properties: modal.properties,
     });
 
-    clearErrors, ();
+    clearErrors();
   }
 
   render() {
-    const { errors } = this.props.errors;
+    const { errors } = this.props;
     return (
       <Modal show={this.props.modal.active} onHide={this.close}>
         <Modal.Header>

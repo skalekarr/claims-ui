@@ -22,10 +22,10 @@ const mapDispatchToProps = (dispatch) => (
 
 class PolicyLookUp extends Component {
     handleSearch = () => {
-        const { addError, requestPolicySearch } = this.props;
+        const { addErrors, requestPolicySearch } = this.props;
         const policyNumber = this.textInput.value;
 
-        if (policyNumber === null && policyNumber === '') {
+        if (policyNumber === null || policyNumber === '') {
           addErrors({
             message: 'Should not be empty'
           });
@@ -38,7 +38,6 @@ class PolicyLookUp extends Component {
 
         if (policyNumber !== null && policyNumber !== '') {
             requestPolicySearch(policyNumber);
-            requestPolicySerach
         }
     }
 

@@ -1,15 +1,15 @@
-import { ADD_ERRORS, CLEAR_ERRORS, TOGGLE_MODAL  } from '../../constants/policyLookUp';
+import { ADD_ERRORS, CLEAR_ERRORS, TOGGLE_MODAL  } from '../../constants/app';
 
-export const addErrors = (errors) => ({
+export const addErrors = (error) => ({
   type: ADD_ERRORS,
-  errors
+  error
 });
 
 export const clearErrors = () => ({
   type: CLEAR_ERRORS
 });
 
-export const toggleModal = (modals) => ({
+export const toggleModal = (modal) => ({
   type: TOGGLE_MODAL,
-  modals
+  modal
 });

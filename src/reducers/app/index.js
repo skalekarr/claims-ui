@@ -1,9 +1,9 @@
 import * as ACTIONS from '../../actions/constants/app';
 
-const initialState = { modals: {}, errors };
+const initialState = { modals: {}, errors: {} };
 
 export default function reducer(state = initialState, action) {
-  const { type, data, modals, errors } = action;
+  const { type, data, modal, error } = action;
 
   switch(type) {
     case ACTIONS.TOGGLE_MODAL:
